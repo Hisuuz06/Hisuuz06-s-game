@@ -1,0 +1,44 @@
+# depslib dependency file v1.0
+1741340205 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	"Game.h"
+	"window.h"
+	"Entity.h"
+
+1741340167 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\window.h
+	<SDL.h>
+	<SDL_image.h>
+	"Entity.h"
+	"tile.h"
+
+1741340167 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\window.cpp
+	<SDL.h>
+	<SDL_image.h>
+	<iostream>
+	"window.h"
+
+1740994148 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\entity.cpp
+	"Entity.h"
+
+1741228329 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\entity.h
+	<SDL.h>
+	<SDL_image.h>
+
+1741228202 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\tile.h
+	"Entity.h"
+	"window.h"
+
+1741228159 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\tile.cpp
+	"tile.h"
+
+1741340167 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.cpp
+	"Game.h"
+
+1741340167 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.h
+	<iostream>
+	"Entity.h"
+	"tile.h"
+	"window.h"
+
