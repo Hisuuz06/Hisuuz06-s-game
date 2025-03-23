@@ -19,7 +19,8 @@ private:
     SDL_Texture* tileTexture = NULL;
 
     SDL_Rect gTileClips[TOTAL_TILE_SPRITES+1];
-    SDL_Rect camera = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
+    SDL_Rect camera = {0,304,SCREEN_WIDTH,SCREEN_HEIGHT};
+    float camVel = 3.5;
 
     bool gameRunning = true;
     vector<char*> mapList;

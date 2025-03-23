@@ -107,7 +107,6 @@ void Level::setTilesType(const char* _path)
 
             //Đọc từ map
             map >> tileType;
-            std::cout<<tileType<<std::endl;
 
             //Debug
             if (map.fail()) {

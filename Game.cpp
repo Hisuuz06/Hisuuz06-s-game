@@ -60,16 +60,17 @@ bool Game::createLevel()
         std::cout<<"FAILED TO CREATE LEVEL!"<<endl;
         return false;
     }
+
     return true;
 }
 
 void Game::render_update_Level()
 {
-    if(LevelList[0].getX()-camera.x<=-LEVEL_WIDTH)
+    if(camera.x >= LevelList[0].getX() + LEVEL_WIDTH)
     {
         int random = rand()%(TOTAL_MAP-1)+1;
         LevelList[0].setTilesType(mapList[random]);
-        LevelList[0].setLevelX(LevelList.size()-1);
+        LevelList[0].setLevelX(LevelList[LevelList.size()-1]);
 
         Level level=LevelList[0];
         LevelList.erase(LevelList.begin());
@@ -83,6 +84,10 @@ void Game::render_update_Level()
 void Game::render_update_Game()
 {
     commonFunction::clearRenderer();
+    camera.x=camera.x+camVel;
+    /*if (camera.x > LEVEL_WIDTH - SCREEN_WIDTH) {
+    camera.x = LEVEL_WIDTH - SCREEN_WIDTH;
+    }*/
     render_update_Level();
     commonFunction::display();
 }
