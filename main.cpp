@@ -4,24 +4,38 @@
 
 #include "Game.h"
 #include "window.h"
-#include "Entity.h"
+
 
 using namespace std;
 
-int main(int argc, char* args[])
+int main(int argc, char* argv[])
 {
     Game mainGame;
-    if(!(mainGame.init())) return 0;
+    if(!(mainGame.init())) {
+        std::cout<<"init";
+        return 0;
+    }
     else{
-        while(mainGame.isRunning())
+        if(!mainGame.loadMedia()) return 0;
+        else
         {
-            SDL_Event event;
-            while (SDL_PollEvent(&event))
+            if(!mainGame.createMap()||!mainGame.createLevel())
             {
-                mainGame.handleGameInput(event);
+                std::cout<<"FAILED TO CREATE GAME ELEMENTS!"<<endl;
+                return 0;
+            }
+            while(mainGame.isRunning())
+            {
+                SDL_Event event;
+                while (SDL_PollEvent(&event))
+                {
+                    mainGame.handleGameInput(event);
+                }
+                mainGame.render_update_Game();
             }
         }
     }
-    commonFunction::cleanUp;
+    mainGame.destroy();
+    commonFunction::cleanUp();
     return 0;
 }

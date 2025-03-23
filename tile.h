@@ -1,6 +1,10 @@
 #ifndef _TILE_H_
 #define _TILE_H_
 
+#include <iostream>
+#include <SDL.h>
+#include <SDL_image.h>
+
 #include "Entity.h"
 #include "window.h"
 

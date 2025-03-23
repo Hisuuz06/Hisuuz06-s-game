@@ -7,6 +7,7 @@ Tile::Tile(float _x, float _y, SDL_Texture* _texture,int _tileType) : Entity(_x,
     collision.h=TILE_HEIGHT;
 
     tileType=_tileType;
+
 }
 void Tile::setType(int _tileType)
 {
