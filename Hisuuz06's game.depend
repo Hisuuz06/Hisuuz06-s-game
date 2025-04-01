@@ -1,28 +1,30 @@
 # depslib dependency file v1.0
-1742582008 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\main.cpp
+1743517377 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
 	"Game.h"
 	"window.h"
 
-1742701955 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\window.h
+1743516939 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\window.h
 	<SDL.h>
 	<SDL_image.h>
+	<iostream>
 	<vector>
 	"Entity.h"
+	"Level.h"
 	"tile.h"
 
-1742631429 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\window.cpp
+1743521461 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\window.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
 	"window.h"
 
-1740994148 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\entity.cpp
+1743327644 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\entity.cpp
 	"Entity.h"
 
-1741228329 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\entity.h
+1743327600 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\entity.h
 	<SDL.h>
 	<SDL_image.h>
 
@@ -36,10 +38,10 @@
 1742632453 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\tile.cpp
 	"tile.h"
 
-1742702639 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.cpp
+1743522160 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.cpp
 	"Game.h"
 
-1742701545 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.h
+1743518161 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -49,8 +51,9 @@
 	"tile.h"
 	"window.h"
 	"Level.h"
+	"Player.h"
 
-1741831290 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\level.h
+1743329142 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\level.h
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -59,6 +62,18 @@
 	"tile.h"
 	"window.h"
 
-1742702014 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\level.cpp
+1743329142 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\level.cpp
 	"Level.h"
+
+1743520202 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<vector>
+	"window.h"
+	"Entity.h"
+	"Level.h"
+
+1743527725 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.cpp
+	"Player.h"
 

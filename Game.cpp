@@ -20,8 +20,8 @@ bool Game::init()
 bool Game::loadMedia()
 {
     bool success = true;
-    /*player = commonFunction::loadTexture();
-    if(player == NULL) success = false;*/
+    player = commonFunction::loadTexture("texture/knight2.png");
+    if(player == NULL) success = false;
 
     tileTexture = commonFunction::loadTexture("texture/tile.png");
     if(tileTexture == NULL) success=false;
@@ -50,7 +50,7 @@ bool Game::createLevel()
 {
     for(int i =0 ;i<TOTAL_LEVEL_PART;i++)
     {
-        int random=rand()%(TOTAL_MAP-1);
+        int random=rand()%(TOTAL_MAP-1)+1;
         if(i==0) random=0;
         Level level(i*LEVEL_WIDTH,0,mapList[random],tileTexture);
         LevelList.push_back(level);
@@ -61,6 +61,15 @@ bool Game::createLevel()
         return false;
     }
 
+    return true;
+}
+
+
+bool Game::createPlayer()
+{
+    Player knight(64 * 3, 300, player);
+    playerList.push_back(knight);
+    if (playerList.size() < 0) return false;
     return true;
 }
 
@@ -81,14 +90,19 @@ void Game::render_update_Level()
         LevelList[i].render(gTileClips,camera);
     }
 }
+
+void Game::render_update_player()
+{
+    playerList[0].update(LevelList, camera);
+    playerList[0].handleCamera(camera, camVel);
+    playerList[0].render(camera);
+}
+
 void Game::render_update_Game()
 {
     commonFunction::clearRenderer();
-    camera.x=camera.x+camVel;
-    /*if (camera.x > LEVEL_WIDTH - SCREEN_WIDTH) {
-    camera.x = LEVEL_WIDTH - SCREEN_WIDTH;
-    }*/
     render_update_Level();
+    render_update_player();
     commonFunction::display();
 }
 
@@ -99,13 +113,14 @@ bool Game::isRunning()
 
 void Game::handleGameInput(SDL_Event& event)
 {
+    playerList[0].handleInput(event);
     if(event.type==SDL_QUIT) gameRunning = false;
 }
 
 void Game::setSDL_Rect()
 {
     int m = 0, n = 0;
-    for (int i = 1; i <= TOTAL_TILE_SPRITES; i++) {
+    for (int i = 0; i < TOTAL_TILE_SPRITES; i++) {
         gTileClips[i].x = n;
         gTileClips[i].y = m;
         gTileClips[i].w = TILE_WIDTH;

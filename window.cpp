@@ -67,6 +67,13 @@ void commonFunction::renderTile(Entity& entity, SDL_Rect& rec, SDL_Rect& camera)
 	SDL_RenderCopy(renderer, entity.getTexture(), &rec, &dst);
 }
 
+void commonFunction::renderAnimation(SDL_Texture* _texture, float _x, float _y, SDL_Rect& _clip, SDL_Rect& _camera, double _angle, SDL_Point* _center, SDL_RendererFlip _flip)
+{
+    SDL_Rect src = {_clip.x, _clip.y, _clip.w, _clip.h};
+    SDL_Rect dst = {_x-_camera.x, _y-_camera.y, _clip.w, _clip.h};
+    SDL_RenderCopyEx(renderer,_texture, &_clip, &dst, _angle, _center, _flip);
+}
+
 bool commonFunction::checkCollision(SDL_Rect a, SDL_Rect b)
 {
 	int leftA, leftB;
@@ -101,6 +108,78 @@ bool commonFunction::checkCollision(SDL_Rect a, SDL_Rect b)
 	}
 
 	return true;
+}
+
+bool commonFunction::touchesWall(SDL_Rect& box, vector<Level>& LevelList) {
+	for (int i = 0; i < LevelList.size(); i++) {
+		if (box.x > LevelList[i].getX() && box.x + box.w  < LevelList[i].getX() + LEVEL_WIDTH && box.y >= 0 && box.y < LEVEL_HEIGHT - TILE_HEIGHT) {
+			int cot_left = (box.x - LevelList[i].getX()) / TILE_WIDTH;
+			int cot_rigth = cot_left + 1;
+			int dong_up = box.y / TILE_HEIGHT;
+			int dong_down = dong_up + 1;
+
+			int stt1 = dong_up * 21 + cot_rigth;
+			int stt2 = dong_down * 21 + cot_rigth;
+			int stt3 = dong_up * 21 + cot_left;
+			int stt4 = dong_down * 21 + cot_left;
+
+			if ((LevelList[i].getTilesList()[stt1]->getType() >= 0) && (LevelList[i].getTilesList()[stt1]->getType() <= 48))
+				if (checkCollision(box, LevelList[i].getTilesList()[stt1]->getCollision())) return true;
+
+			if ((LevelList[i].getTilesList()[stt2]->getType() >= 0) && (LevelList[i].getTilesList()[stt2]->getType() <= 48))
+				if (checkCollision(box, LevelList[i].getTilesList()[stt2]->getCollision())) return true;
+
+
+			if ((LevelList[i].getTilesList()[stt3]->getType() >= 0) && (LevelList[i].getTilesList()[stt3]->getType() <= 48))
+				if (checkCollision(box, LevelList[i].getTilesList()[stt3]->getCollision())) return true;
+
+			if ((LevelList[i].getTilesList()[stt4]->getType() >= 0) && (LevelList[i].getTilesList()[stt4]->getType() <= 48))
+				if (checkCollision(box, LevelList[i].getTilesList()[stt4]->getCollision())) return true;
+		}
+	}
+	return false;
+}
+
+bool commonFunction::touchesWall(SDL_Rect& box, vector<Level>& LevelList, bool& grounded, int& groundSTT, int& levelSTT) {
+	bool check = false;
+	for (int i = 0; i < LevelList.size(); i++) {
+		if (box.x + box.w >= LevelList[i].getX() && box.x <= LevelList[i].getX() + LEVEL_WIDTH && box.y >= 0 && box.y < LEVEL_HEIGHT - TILE_HEIGHT) {
+			int cot_left = (box.x - LevelList[i].getX()) / TILE_WIDTH;
+			int cot_rigth = cot_left + 1;
+			int dong_up = box.y / TILE_HEIGHT;
+			int dong_down = dong_up + 1;
+
+			int stt1 = dong_up * 21 + cot_rigth;
+			int stt2 = dong_down * 21 + cot_rigth;
+			int stt3 = dong_up * 21 + cot_left;
+			int stt4 = dong_down * 21 + cot_left;
+
+			if (box.x <= LevelList[i].getX() && box.x + box.w >= LevelList[i].getX() || box.x <= LevelList[i].getX() + LEVEL_WIDTH && box.x + box.w >= LevelList[i].getX() + LEVEL_WIDTH) {
+				grounded = false;
+			}
+			else {
+				if ((LevelList[i].getTilesList()[stt1]->getType() >= 0) && (LevelList[i].getTilesList()[stt1]->getType() <= 48))
+				if (checkCollision(box, LevelList[i].getTilesList()[stt1]->getCollision())) check = true;
+
+			if ((LevelList[i].getTilesList()[stt2]->getType() >= 0) && (LevelList[i].getTilesList()[stt2]->getType() <= 48))
+				if (checkCollision(box, LevelList[i].getTilesList()[stt2]->getCollision())) check = true;
+
+
+			if ((LevelList[i].getTilesList()[stt3]->getType() >= 0) && (LevelList[i].getTilesList()[stt3]->getType() <= 48))
+				if (checkCollision(box, LevelList[i].getTilesList()[stt3]->getCollision())) check = true;
+
+			if ((LevelList[i].getTilesList()[stt4]->getType() >= 0) && (LevelList[i].getTilesList()[stt4]->getType() <= 48))
+				if (checkCollision(box, LevelList[i].getTilesList()[stt4]->getCollision())) check = true;
+
+				if ((LevelList[i].getTilesList()[stt2]->getType() > 48) && (LevelList[i].getTilesList()[stt4]->getType() > 48)) grounded = false;
+				if ((LevelList[i].getTilesList()[stt4]->getType() > 48) && (LevelList[i].getTilesList()[stt2]->getType() <= 48) && box.x + box.w <= LevelList[i].getTilesList()[stt2]->getX()) grounded = false;
+			}
+
+				groundSTT = stt4;
+				levelSTT = i;
+		}
+	}
+	return check;
 }
 
 void commonFunction::cleanUp()

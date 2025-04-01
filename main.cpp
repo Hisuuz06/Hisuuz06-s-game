@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
         if(!mainGame.loadMedia()) return 0;
         else
         {
-            if(!mainGame.createMap()||!mainGame.createLevel())
+            if(!mainGame.createMap()||!mainGame.createLevel()|| !mainGame.createPlayer())
             {
                 std::cout<<"FAILED TO CREATE GAME ELEMENTS!"<<endl;
                 return 0;

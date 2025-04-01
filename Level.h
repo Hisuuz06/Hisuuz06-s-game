@@ -10,6 +10,7 @@
 
 using namespace std;
 
+class Tile;
 class Level
 {
 private:
@@ -23,7 +24,7 @@ public:
 	void setLevelX(float _x);
     void setTilesType(const char* _path);
 
-    vector<Tile*> getTilesList();
+    vector<Tile*> getTilesList() const { return TilesList; }
 
     int getX();
     int getY();

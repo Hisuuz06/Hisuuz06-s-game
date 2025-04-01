@@ -141,6 +141,7 @@ void Level::setTilesType(const char* _path)
     map.close();
 }
 
+
 int Level::getX()
 {
     return x;

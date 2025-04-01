@@ -11,6 +11,7 @@
 #include "tile.h"
 #include "window.h"
 #include "Level.h"
+#include "Player.h"
 
 class Game
 {
@@ -18,13 +19,14 @@ private:
     SDL_Texture* player = NULL;
     SDL_Texture* tileTexture = NULL;
 
-    SDL_Rect gTileClips[TOTAL_TILE_SPRITES+1];
-    SDL_Rect camera = {0,304,SCREEN_WIDTH,SCREEN_HEIGHT};
-    float camVel = 3.5;
+    SDL_Rect gTileClips[TOTAL_TILE_SPRITES];
+    SDL_Rect camera = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
+    float camVel = 1.5;
 
     bool gameRunning = true;
     vector<char*> mapList;
     vector<Level> LevelList;
+    vector<Player> playerList;
 
 public:
     Game()
@@ -35,7 +37,9 @@ public:
     bool loadMedia();
     bool createMap();
     bool createLevel();
+    bool createPlayer();
     void render_update_Level();
+    void render_update_player();
     void render_update_Game();
     bool isRunning();
     void handleGameInput(SDL_Event& event);

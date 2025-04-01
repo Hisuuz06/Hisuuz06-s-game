@@ -3,12 +3,20 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <iostream>
 #include <vector>
+
 #include "Entity.h"
+#include "Level.h"
 #include "tile.h"
+
+using namespace std;
 
 class Tile;
 class Level;
+
+const float GRAVITY = 0.3;
+const float MAX_GRAVITY = 15;
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -39,8 +47,11 @@ namespace commonFunction
     void renderTexture(Entity& entity, SDL_Rect *rec = NULL, SDL_Rect *camera = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 	void renderTexture(SDL_Texture* _texture, float _x, float _y, float _w = 0, float _h = 0, SDL_Rect* rec = NULL, SDL_Rect* camera = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void renderTile(Entity& entity, SDL_Rect& rec, SDL_Rect& camera);
+    void renderAnimation(SDL_Texture* _texture, float _x, float _y, SDL_Rect& _clip, SDL_Rect& _camera, double _angle = 0.0, SDL_Point* _center = NULL, SDL_RendererFlip _flip = SDL_FLIP_NONE);
 
     bool checkCollision(SDL_Rect a, SDL_Rect b);
+    bool touchesWall(SDL_Rect& box, vector<Level>& LevelList);
+	bool touchesWall(SDL_Rect& box, vector<Level>& LevelList,bool& grounded, int& groundSTT, int& levelSTT);
 
     void clearRenderer();
     void display();

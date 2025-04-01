@@ -38,6 +38,8 @@
 		<Unit filename="Game.h" />
 		<Unit filename="Level.cpp" />
 		<Unit filename="Level.h" />
+		<Unit filename="Player.cpp" />
+		<Unit filename="Player.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="tile.cpp" />
 		<Unit filename="tile.h" />

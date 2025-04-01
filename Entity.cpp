@@ -7,6 +7,7 @@ Entity::Entity(float _x,float _y,SDL_Texture* _texture)
     texture=_texture;
     currentFrame.x = 0;
     currentFrame.y = 0;
+    SDL_QueryTexture(_texture,NULL,NULL,&currentFrame.w,&currentFrame.h);
 }
 SDL_Rect Entity::getCurrentFrame()
 {
@@ -28,4 +29,8 @@ float Entity::getY()
     return y;
 }
 
+SDL_RendererFlip Entity::getFlipType()
+{
+	return flipType;
+}
 
