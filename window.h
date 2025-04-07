@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <iostream>
 #include <vector>
 
@@ -32,10 +33,10 @@ const int TOTAL_MAP=5;
 const int TOTAL_TILES = 336;
 const int TOTAL_TILE_SPRITES = 96;
 
-
+static TTF_Font* font = NULL;
 static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
-//static SDL_Surface* surface = NULL;
+static SDL_Surface* surface = NULL;
 
 
 namespace commonFunction
@@ -53,6 +54,10 @@ namespace commonFunction
     bool touchesWall(SDL_Rect& box, vector<Level>& LevelList);
 	bool touchesWall(SDL_Rect& box, vector<Level>& LevelList,bool& grounded, int& groundSTT, int& levelSTT);
 
+	bool loadFont(const char* filePath);
+	SDL_Texture* createText(string _text, SDL_Color _textColor);
+
+	void Color();
     void clearRenderer();
     void display();
     void cleanUp();

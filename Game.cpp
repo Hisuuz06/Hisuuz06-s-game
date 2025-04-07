@@ -13,6 +13,10 @@ bool Game::init()
         std::cout << "SDL_Init HAS FAILED. ERROR: " << IMG_GetError << std::endl;
         success = false;
     }
+    if (TTF_Init() == -1) {
+        std::cout << "TTF_Init HAS FAILED. SDL_ERROR: " << TTF_GetError() << std::endl;
+        success = false;
+    }
     if (success == true) commonFunction::RenderWindow("Hisuuz06's Game", SCREEN_WIDTH, SCREEN_HEIGHT);
     return success;
 }
@@ -20,6 +24,8 @@ bool Game::init()
 bool Game::loadMedia()
 {
     bool success = true;
+    if (!commonFunction::loadFont("font/Pixel-UniCode.ttf")) success = false;
+
     player = commonFunction::loadTexture("texture/knight2.png");
     if(player == NULL) success = false;
 
@@ -28,6 +34,22 @@ bool Game::loadMedia()
 
     if (!success) cout << "FAILED TO LOAD MEDIA: " << SDL_GetError() << endl;
     return success;
+}
+
+void Game::FPSCounter()
+{
+    int avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
+    if (avgFPS > 2000000) {
+        avgFPS = 0;
+    }
+    timeText.str("");
+    timeText << "FPS: " << avgFPS;
+
+    SDL_Color whiteColor = { 255,255,255,255 };
+    SDL_Texture* textTex = commonFunction::createText(timeText.str().c_str(), whiteColor);
+    Entity text(64, 0, textTex);
+    commonFunction::renderTexture(text);
+    ++countedFrames;
 }
 
 bool Game::createMap()
@@ -100,9 +122,12 @@ void Game::render_update_player()
 
 void Game::render_update_Game()
 {
+    fpsTimer.start();
     commonFunction::clearRenderer();
     render_update_Level();
     render_update_player();
+    FPSCounter();
+    fpsTimer.unpause();
     commonFunction::display();
 }
 

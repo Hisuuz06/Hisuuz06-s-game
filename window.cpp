@@ -10,7 +10,7 @@ void commonFunction::RenderWindow(const char* Window_Tittle, int Window_Width, i
     {
         std::cout << "Window has failed to init. ERROR: " << SDL_GetError() << std::endl;
     }
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL) {
 		std::cout << "Renderer has failed to init. ERROR: " << SDL_GetError() << std::endl;
 	}
@@ -112,7 +112,7 @@ bool commonFunction::checkCollision(SDL_Rect a, SDL_Rect b)
 
 bool commonFunction::touchesWall(SDL_Rect& box, vector<Level>& LevelList) {
 	for (int i = 0; i < LevelList.size(); i++) {
-		if (box.x > LevelList[i].getX() && box.x + box.w  < LevelList[i].getX() + LEVEL_WIDTH && box.y >= 0 && box.y < LEVEL_HEIGHT - TILE_HEIGHT) {
+		if (box.x > LevelList[i].getX() && box.x + box.w < LevelList[i].getX() + LEVEL_WIDTH && box.y >= 0 && box.y < LEVEL_HEIGHT - TILE_HEIGHT) {
 			int cot_left = (box.x - LevelList[i].getX()) / TILE_WIDTH;
 			int cot_rigth = cot_left + 1;
 			int dong_up = box.y / TILE_HEIGHT;
@@ -143,7 +143,7 @@ bool commonFunction::touchesWall(SDL_Rect& box, vector<Level>& LevelList) {
 bool commonFunction::touchesWall(SDL_Rect& box, vector<Level>& LevelList, bool& grounded, int& groundSTT, int& levelSTT) {
 	bool check = false;
 	for (int i = 0; i < LevelList.size(); i++) {
-		if (box.x + box.w >= LevelList[i].getX() && box.x <= LevelList[i].getX() + LEVEL_WIDTH && box.y >= 0 && box.y < LEVEL_HEIGHT - TILE_HEIGHT) {
+		if (box.x + box.w>= LevelList[i].getX() && box.x <= LevelList[i].getX() + LEVEL_WIDTH && box.y >= 0 && box.y < LEVEL_HEIGHT - TILE_HEIGHT) {
 			int cot_left = (box.x - LevelList[i].getX()) / TILE_WIDTH;
 			int cot_rigth = cot_left + 1;
 			int dong_up = box.y / TILE_HEIGHT;
@@ -191,8 +191,44 @@ void commonFunction::cleanUp()
 
     SDL_Quit();
     IMG_Quit();
+    TTF_Quit();
 }
 
+void commonFunction::Color()
+{
+	surface = SDL_GetWindowSurface(window);
+	SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 0, 0));
+	SDL_UpdateWindowSurface(window);
+}
+
+bool commonFunction::loadFont(const char* filePath)
+{
+	TTF_CloseFont(font);
+	font = TTF_OpenFont(filePath, 28);
+	if (font == NULL) {
+		printf ("Font has failed to load: %s\n",TTF_GetError());
+		return false;
+	}
+	return true;
+}
+SDL_Texture* commonFunction::createText(string _text, SDL_Color _textColor)
+ {
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, _text.c_str(), _textColor);
+	SDL_Texture* texture = NULL;
+	if (textSurface == NULL) {
+		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+	}
+	else {
+		//Tạo texture text từ surface
+		texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		if (texture == NULL) {
+			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+		}
+		SDL_FreeSurface(textSurface);
+		return texture;
+	}
+	return NULL;
+}
 
 void commonFunction::clearRenderer()
 {
