@@ -19,7 +19,7 @@ private:
 
 	static const int WALKING_ANIMATION_FRAMES = 16;
 	static const int IDLING_ANIMATION_FRAMES = 4;
-	static const int JUMPING_ANIMATION_FRAMES = 8;
+	static const int JUMPING_ANIMATION_FRAMES = 4;
 	static const int FALLING_ANIMATION_FRAMES = 4;
 	static const int DEATH_ANIMATION_FRAMES = 4;
 

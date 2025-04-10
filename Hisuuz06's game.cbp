@@ -38,6 +38,7 @@
 		<Unit filename="Game.h" />
 		<Unit filename="Level.cpp" />
 		<Unit filename="Level.h" />
+		<Unit filename="Menu.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
 		<Unit filename="Timer.cpp" />

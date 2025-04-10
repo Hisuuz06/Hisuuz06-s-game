@@ -2,8 +2,8 @@
 
 Player::Player(float _x, float _y, SDL_Texture* _texture) : Entity(_x,_y,_texture)
 {
-    collision.x=getX()+PLAYER_WIDTH;
-    collision.y=getY()+PLAYER_HEIGHT;
+    collision.x=getX()+(PLAYER_WIDTH/2);
+    collision.y=getY()+PLAYER_HEIGHT-20;
     collision.w=PLAYER_WIDTH;
     collision.h=PLAYER_HEIGHT;
 
@@ -16,47 +16,39 @@ Player::Player(float _x, float _y, SDL_Texture* _texture) : Entity(_x,_y,_textur
 	}
 	for (int i = 0; i < WALKING_ANIMATION_FRAMES; i++)
     {
-        walkingClips[i].x = i * (getCurrentFrame().w/4);
-        if(i>=12)
+        if(i<WALKING_ANIMATION_FRAMES&&i>=12)
         {
-            walkingClips[i].x = (i-12) * (getCurrentFrame().w);
+            walkingClips[i].x = (i-12) * (getCurrentFrame().w/4);
             walkingClips[i].y = (getCurrentFrame().h/9)*4;
         }
-        else if( i>=8)
+        else if( i<12&& i>=8)
         {
             walkingClips[i].x = (i-8) * (getCurrentFrame().w/4);
             walkingClips[i].y = (getCurrentFrame().h/9)*3;
         }
-		else if (i >= 4)
+		else if (i<8 && i >= 4)
 		{
 			walkingClips[i].x = (i-4) * (getCurrentFrame().w/4);
 			walkingClips[i].y = (getCurrentFrame().h/9)*2;
 		}
 		else
         {
+            walkingClips[i].x = i * (getCurrentFrame().w/4);
             walkingClips[i].y = getCurrentFrame().h/9;
         }
 		walkingClips[i].w = getCurrentFrame().w/4;
 		walkingClips[i].h = getCurrentFrame().h/9;
 	}
 	for (int i = 0; i < JUMPING_ANIMATION_FRAMES; i++) {
-        if (i<4)
-        {
-            jumpingClips[i].x = i * (getCurrentFrame().w / 4);
-            jumpingClips[i].y = (getCurrentFrame().h/9) * 5;
-        }
-        else
-        {
-            jumpingClips[i].x = i * (getCurrentFrame().w / 4);
-            jumpingClips[i].y = (getCurrentFrame().h/9) * 6;
-        }
+        jumpingClips[i].x = i * (getCurrentFrame().w / 4);
+        jumpingClips[i].y = (getCurrentFrame().h/9) * 5;
 		jumpingClips[i].w = getCurrentFrame().w / 4;
 		jumpingClips[i].h = getCurrentFrame().h / 9;
 	}
 
 	for (int i = 0; i < FALLING_ANIMATION_FRAMES; i++) {
 		fallingClips[i].x = i * (getCurrentFrame().w / 4);
-		fallingClips[i].y = (getCurrentFrame().h / 9) * 7;
+		fallingClips[i].y = (getCurrentFrame().h / 9) * 6;
 		fallingClips[i].w = getCurrentFrame().w / 4;
 		fallingClips[i].h = getCurrentFrame().h / 9;
 	}
@@ -77,10 +69,10 @@ void Player::handleInput(SDL_Event &events)
         {
             switch (events.key.keysym.sym)
             {
-            case SDLK_d:
+            case SDLK_RIGHT:
                 xVel+=PLAYER_VEL;
                 break;
-            case SDLK_a:
+            case SDLK_LEFT:
                 xVel-=PLAYER_VEL;
                 break;
             case SDLK_SPACE:
@@ -96,10 +88,10 @@ void Player::handleInput(SDL_Event &events)
         {
             switch (events.key.keysym.sym)
             {
-            case SDLK_d:
+            case SDLK_RIGHT:
                 xVel-=PLAYER_VEL;
                 break;
-            case SDLK_a:
+            case SDLK_LEFT:
                 xVel+=PLAYER_VEL;
                 break;
             case SDLK_SPACE:
@@ -157,28 +149,28 @@ void Player::update(vector<Level>& LevelList, SDL_Rect& camera) {
 	//move x
 	if (!dead) {
 		x += xVel;
-		collision.x = getX() + PLAYER_WIDTH;
+		collision.x = getX() + PLAYER_WIDTH/2;
 
 		if (getX() + PLAYER_WIDTH < 0) {
 			x = -PLAYER_WIDTH;
-			collision.x = getX() + PLAYER_WIDTH;
+			collision.x = getX() + PLAYER_WIDTH/2;
 		}
 		if (commonFunction::touchesWall(collision, LevelList)) {
 			x -= xVel;
-			collision.x = getX() + PLAYER_WIDTH;
+			collision.x = getX() + PLAYER_WIDTH/2;
 		}
 	}
 
 	//move y
 	y += yVel;
-	collision.y = getY() + PLAYER_HEIGHT;
+	collision.y = getY() + PLAYER_HEIGHT-20;
 	if (getY() + PLAYER_HEIGHT < 0) {
 		y = -PLAYER_HEIGHT;
-		collision.y = getY() + PLAYER_HEIGHT;
+		collision.y = getY() + PLAYER_HEIGHT-20;
 	}
 	if (commonFunction::touchesWall(collision, LevelList, grounded, groundSTT, levelSTT)) {
 		if (yVel > 0) {
-			y = LevelList[levelSTT].getTilesList()[groundSTT]->getY() - 64 * 2;
+			y = LevelList[levelSTT].getTilesList()[groundSTT]->getY() - 64 * 2+20;
 			if (falling) {
 				grounded = true;
 			}
@@ -187,10 +179,8 @@ void Player::update(vector<Level>& LevelList, SDL_Rect& camera) {
 			y -= yVel;
 			yVel = 0;
 		}
-		collision.y = getY() + PLAYER_HEIGHT;
+		collision.y = getY() + PLAYER_HEIGHT-20;
 	}
-
-
 }
 
 void Player::handleCamera(SDL_Rect& camera, float& camVel)

@@ -89,7 +89,7 @@ bool Game::createLevel()
 
 bool Game::createPlayer()
 {
-    Player knight(64 * 3, 300, player);
+    Player knight(TILE_WIDTH * 3, 300, player);
     playerList.push_back(knight);
     if (playerList.size() < 0) return false;
     return true;

@@ -19,7 +19,7 @@
 	"Level.h"
 	"tile.h"
 
-1744029071 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\window.cpp
+1744033295 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\window.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -42,7 +42,7 @@
 1742632453 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\tile.cpp
 	"tile.h"
 
-1744029721 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.cpp
+1744191189 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.cpp
 	"Game.h"
 
 1743706432 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.h
@@ -72,7 +72,7 @@
 1743329142 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\level.cpp
 	"Level.h"
 
-1743520202 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.h
+1744088950 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -81,7 +81,7 @@
 	"Entity.h"
 	"Level.h"
 
-1743842333 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.cpp
+1744191511 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.cpp
 	"Player.h"
 
 1743705781 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\timer.h
