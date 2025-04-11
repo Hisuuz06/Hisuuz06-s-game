@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1744030632 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\main.cpp
+1744388682 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -42,10 +42,10 @@
 1742632453 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\tile.cpp
 	"tile.h"
 
-1744191189 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.cpp
+1744388699 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.cpp
 	"Game.h"
 
-1743706432 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.h
+1744388487 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\game.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -59,6 +59,7 @@
 	"Timer.h"
 	"Level.h"
 	"Player.h"
+	"Menu.h"
 
 1743329142 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\level.h
 	<SDL.h>
@@ -72,7 +73,7 @@
 1743329142 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\level.cpp
 	"Level.h"
 
-1744088950 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.h
+1744388825 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -81,7 +82,7 @@
 	"Entity.h"
 	"Level.h"
 
-1744191511 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.cpp
+1744387588 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\player.cpp
 	"Player.h"
 
 1743705781 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\timer.h
@@ -101,4 +102,18 @@
 	"window.h"
 	"Entity.h"
 	"Timer.h"
+
+1744383075 c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\menu.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<iostream>
+	<vector>
+	"window.h"
+	"Entity.h"
+	"Player.h"
+	"Timer.h"
+
+1744387651 source:c:\users\admin\onedrive\desktop\sdl\hisuuz06's game\menu.cpp
+	"Menu.h"
 

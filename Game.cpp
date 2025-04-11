@@ -13,6 +13,10 @@ bool Game::init()
         std::cout << "SDL_Init HAS FAILED. ERROR: " << IMG_GetError << std::endl;
         success = false;
     }
+    if (!(IMG_Init(IMG_INIT_PNG))) {
+        std::cout << "IMG_Init HAS FAILED. SDL_ERROR: " << IMG_GetError() << std::endl;
+        success = false;
+    }
     if (TTF_Init() == -1) {
         std::cout << "TTF_Init HAS FAILED. SDL_ERROR: " << TTF_GetError() << std::endl;
         success = false;
@@ -31,6 +35,12 @@ bool Game::loadMedia()
 
     tileTexture = commonFunction::loadTexture("texture/tile.png");
     if(tileTexture == NULL) success=false;
+
+    bgTex = commonFunction::loadTexture("texture/bg.jpg");
+    if (bgTex == NULL) success = false;
+
+    buttonTex = commonFunction::loadTexture("texture/button.png");
+    if (buttonTex == NULL) success = false;
 
     if (!success) cout << "FAILED TO LOAD MEDIA: " << SDL_GetError() << endl;
     return success;
@@ -95,6 +105,19 @@ bool Game::createPlayer()
     return true;
 }
 
+bool Game::createMenu()
+{
+    Menu gameMenu(buttonTex, bgTex);
+    menuList.push_back(gameMenu);
+    if (menuList.size() < 0) return false;
+    return true;
+}
+
+void Game::pauseTime()
+{
+    fpsTimer.pause();
+}
+
 void Game::render_update_Level()
 {
     if(camera.x >= LevelList[0].getX() + LEVEL_WIDTH)
@@ -127,9 +150,43 @@ void Game::render_update_Game()
     render_update_Level();
     render_update_player();
     FPSCounter();
+    if(playerList[0].isDead()){
+        menuList[0].renderRetryMenu();
+    }
     fpsTimer.unpause();
+    if (menuList[0].need_reseting()) resetGame();
     commonFunction::display();
 }
+
+void Game::render_mainMenu()
+{
+    commonFunction::clearRenderer();
+    getMenuList()[0].renderMainMenu();
+    commonFunction::display();
+}
+
+void Game::resetGame()
+{
+   playerList[0].resetPlayer();
+    camera.x = 0;
+    camera.y = 0;
+    camVel = 1.5;
+
+    for (int i = 0; i < LevelList.size(); i++) {
+        int random = rand() % (TOTAL_MAP - 1)+1;
+        if (i == 0) {
+            random = 0;
+            LevelList[i].setLevelX(0);
+        }
+        else LevelList[i].setLevelX(LevelList[i-1]);
+        LevelList[i].setTilesType(mapList[random]);
+    }
+    menuList[0].set_reset(false);
+    fpsTimer.stop();
+    fpsTimer.start();
+    countedFrames = 0;
+}
+
 
 bool Game::isRunning()
 {
@@ -138,8 +195,9 @@ bool Game::isRunning()
 
 void Game::handleGameInput(SDL_Event& event)
 {
-    playerList[0].handleInput(event);
     if(event.type==SDL_QUIT) gameRunning = false;
+    menuList[0].handleInput(event, gameRunning, playerList[0]);
+    if(!menuList[0].isMenu() && !menuList[0].isPaused()) playerList[0].handleInput(event);
 }
 
 void Game::setSDL_Rect()

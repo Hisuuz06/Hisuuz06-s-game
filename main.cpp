@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
         if(!mainGame.loadMedia()) return 0;
         else
         {
-            if(!mainGame.createMap()||!mainGame.createLevel()|| !mainGame.createPlayer())
+            if(!mainGame.createMap()||!mainGame.createMenu()||!mainGame.createLevel()|| !mainGame.createPlayer())
             {
                 std::cout<<"FAILED TO CREATE GAME ELEMENTS!"<<std::endl;
                 return 0;
@@ -34,7 +34,9 @@ int main(int argc, char* argv[])
                 {
                     mainGame.handleGameInput(event);
                 }
-                mainGame.render_update_Game();
+                if(mainGame.getMenuList()[0].isMenu()) mainGame.render_mainMenu();
+                else if(mainGame.getMenuList()[0].isPaused()) mainGame.pauseTime();
+                else mainGame.render_update_Game();
             }
         }
     }

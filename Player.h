@@ -39,11 +39,12 @@ public:
     void update(vector<Level>& LevelList, SDL_Rect& camera);
     void jump();
     void gravity();
+    void getHit(SDL_Rect& camera);
     bool isDead() { return dead; }
     void handleInput(SDL_Event &events);
     void handleCamera(SDL_Rect& camera, float& camVel);
     void render(SDL_Rect& _camera);
-
+    void resetPlayer();
     SDL_Rect getCollision();
 };
 

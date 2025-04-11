@@ -15,13 +15,15 @@
 #include "Timer.h"
 #include "Level.h"
 #include "Player.h"
+#include "Menu.h"
 
 class Game
 {
 private:
     SDL_Texture* player = NULL;
     SDL_Texture* tileTexture = NULL;
-
+    SDL_Texture* bgTex = NULL;
+    SDL_Texture* buttonTex = NULL;
 
     SDL_Rect gTileClips[TOTAL_TILE_SPRITES];
     SDL_Rect camera = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
@@ -35,6 +37,7 @@ private:
     vector<char*> mapList;
     vector<Level> LevelList;
     vector<Player> playerList;
+    vector<Menu> menuList;
 
 public:
     Game()
@@ -47,14 +50,17 @@ public:
     bool createMap();
     bool createLevel();
     bool createPlayer();
+    bool createMenu();
+    void pauseTime();
     void render_update_Level();
     void render_update_player();
     void render_update_Game();
+    void render_mainMenu();
+    void resetGame();
     bool isRunning();
     void handleGameInput(SDL_Event& event);
+    vector<Menu> getMenuList() { return menuList; }
     void setSDL_Rect();
     void destroy();
-
-
 };
 #endif // _GAME_H_

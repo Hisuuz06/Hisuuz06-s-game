@@ -123,10 +123,16 @@ void Player::gravity()
 	else yVel = GRAVITY;
 }
 
+void Player::getHit(SDL_Rect& camera)
+{
+    if (getY() + PLAYER_HEIGHT >= LEVEL_HEIGHT ) {
+		dead = true;
+	}
+}
 
 void Player::update(vector<Level>& LevelList, SDL_Rect& camera) {
 	gravity();
-
+    if(!dead) getHit(camera);
 	// set trạng thái Player
 	if (xVel == 0 && grounded && !dead) idling = true;
 	else idling = false;
@@ -243,4 +249,14 @@ void Player::render(SDL_Rect &_camera)
 		if(deathCounter / 5 < DEATH_ANIMATION_FRAMES-1) deathCounter++;
 	}
 	else deathCounter = 0;
+}
+
+void Player::resetPlayer()
+{
+    x = TILE_WIDTH * 3;
+    y = LEVEL_HEIGHT - TILE_HEIGHT * 5;
+    xVel = 0;
+    yVel = 0;
+    dead = false;
+    flipType = SDL_FLIP_NONE;
 }
