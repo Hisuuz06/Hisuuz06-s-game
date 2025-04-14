@@ -21,6 +21,7 @@ class Game
 {
 private:
     SDL_Texture* player = NULL;
+    SDL_Texture* monsterTex = NULL;
     SDL_Texture* tileTexture = NULL;
     SDL_Texture* bgTex = NULL;
     SDL_Texture* buttonTex = NULL;
@@ -31,11 +32,16 @@ private:
 
     LTimer fpsTimer;
     stringstream timeText;
+    stringstream scoreText;
+    stringstream highscoreText;
+    int score = 0;
+    int highscore = 0;
     int countedFrames = 0;
 
     bool gameRunning = true;
-    vector<char*> mapList;
+    vector<map_path> mapList;
     vector<Level> LevelList;
+    vector<Monster*> monsterList;
     vector<Player> playerList;
     vector<Menu> menuList;
 
@@ -47,13 +53,17 @@ public:
     bool init();
     bool loadMedia();
     void FPSCounter();
+    void renderScore();
     bool createMap();
     bool createLevel();
+    bool createMonster();
     bool createPlayer();
     bool createMenu();
     void pauseTime();
     void render_update_Level();
     void render_update_player();
+    void render_update_monster();
+    void update_high_score();
     void render_update_Game();
     void render_mainMenu();
     void resetGame();

@@ -69,10 +69,10 @@ void Player::handleInput(SDL_Event &events)
         {
             switch (events.key.keysym.sym)
             {
-            case SDLK_RIGHT:
+            case SDLK_d:
                 xVel+=PLAYER_VEL;
                 break;
-            case SDLK_LEFT:
+            case SDLK_a:
                 xVel-=PLAYER_VEL;
                 break;
             case SDLK_SPACE:
@@ -88,10 +88,10 @@ void Player::handleInput(SDL_Event &events)
         {
             switch (events.key.keysym.sym)
             {
-            case SDLK_RIGHT:
+            case SDLK_d:
                 xVel-=PLAYER_VEL;
                 break;
-            case SDLK_LEFT:
+            case SDLK_a:
                 xVel+=PLAYER_VEL;
                 break;
             case SDLK_SPACE:
@@ -123,16 +123,22 @@ void Player::gravity()
 	else yVel = GRAVITY;
 }
 
-void Player::getHit(SDL_Rect& camera)
+void Player::getHit(vector<Monster*> &monsterList, SDL_Rect& camera)
 {
+    for(int i=0;i<monsterList.size();i++){
+        if(monsterList[i]!=NULL)
+        if(commonFunction::checkCollision(collision,monsterList[i]->getCollision())&&!(monsterList[i]->isDead())){
+            dead = true;
+        }
+    }
     if (getY() + PLAYER_HEIGHT >= LEVEL_HEIGHT ) {
 		dead = true;
 	}
 }
 
-void Player::update(vector<Level>& LevelList, SDL_Rect& camera) {
+void Player::update(vector<Level>& LevelList,vector<Monster*> &monsterList, SDL_Rect& camera) {
 	gravity();
-    if(!dead) getHit(camera);
+    if(!dead) getHit(monsterList, camera);
 	// set trạng thái Player
 	if (xVel == 0 && grounded && !dead) idling = true;
 	else idling = false;

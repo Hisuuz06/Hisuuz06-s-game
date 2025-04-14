@@ -63,7 +63,7 @@ void commonFunction::renderTexture(SDL_Texture* p_tex, float p_x, float p_y, flo
 
 void commonFunction::renderTile(Entity& entity, SDL_Rect& rec, SDL_Rect& camera)
 {
-	SDL_Rect dst = { entity.getX() - camera.x, entity.getY() - camera.y, rec.w, rec.h };
+	SDL_Rect dst = { entity.getX() - camera.x, entity.getY() - camera.y, rec.w*4, rec.h*4};
 	SDL_RenderCopy(renderer, entity.getTexture(), &rec, &dst);
 }
 
@@ -123,17 +123,17 @@ bool commonFunction::touchesWall(SDL_Rect& box, vector<Level>& LevelList) {
 			int stt3 = dong_up * 21 + cot_left;
 			int stt4 = dong_down * 21 + cot_left;
 
-			if ((LevelList[i].getTilesList()[stt1]->getType() >= 0) && (LevelList[i].getTilesList()[stt1]->getType() <= 48))
+			if ((LevelList[i].getTilesList()[stt1]->getType() >= 0) && (LevelList[i].getTilesList()[stt1]->getType() <= MAX_TILE))
 				if (checkCollision(box, LevelList[i].getTilesList()[stt1]->getCollision())) return true;
 
-			if ((LevelList[i].getTilesList()[stt2]->getType() >= 0) && (LevelList[i].getTilesList()[stt2]->getType() <= 48))
+			if ((LevelList[i].getTilesList()[stt2]->getType() >= 0) && (LevelList[i].getTilesList()[stt2]->getType() <= MAX_TILE))
 				if (checkCollision(box, LevelList[i].getTilesList()[stt2]->getCollision())) return true;
 
 
-			if ((LevelList[i].getTilesList()[stt3]->getType() >= 0) && (LevelList[i].getTilesList()[stt3]->getType() <= 48))
+			if ((LevelList[i].getTilesList()[stt3]->getType() >= 0) && (LevelList[i].getTilesList()[stt3]->getType() <= MAX_TILE))
 				if (checkCollision(box, LevelList[i].getTilesList()[stt3]->getCollision())) return true;
 
-			if ((LevelList[i].getTilesList()[stt4]->getType() >= 0) && (LevelList[i].getTilesList()[stt4]->getType() <= 48))
+			if ((LevelList[i].getTilesList()[stt4]->getType() >= 0) && (LevelList[i].getTilesList()[stt4]->getType() <= MAX_TILE))
 				if (checkCollision(box, LevelList[i].getTilesList()[stt4]->getCollision())) return true;
 		}
 	}
@@ -158,21 +158,21 @@ bool commonFunction::touchesWall(SDL_Rect& box, vector<Level>& LevelList, bool& 
 				grounded = false;
 			}
 			else {
-				if ((LevelList[i].getTilesList()[stt1]->getType() >= 0) && (LevelList[i].getTilesList()[stt1]->getType() <= 48))
+				if ((LevelList[i].getTilesList()[stt1]->getType() >= 0) && (LevelList[i].getTilesList()[stt1]->getType() <= MAX_TILE))
 				if (checkCollision(box, LevelList[i].getTilesList()[stt1]->getCollision())) check = true;
 
-			if ((LevelList[i].getTilesList()[stt2]->getType() >= 0) && (LevelList[i].getTilesList()[stt2]->getType() <= 48))
+			if ((LevelList[i].getTilesList()[stt2]->getType() >= 0) && (LevelList[i].getTilesList()[stt2]->getType() <= MAX_TILE))
 				if (checkCollision(box, LevelList[i].getTilesList()[stt2]->getCollision())) check = true;
 
 
-			if ((LevelList[i].getTilesList()[stt3]->getType() >= 0) && (LevelList[i].getTilesList()[stt3]->getType() <= 48))
+			if ((LevelList[i].getTilesList()[stt3]->getType() >= 0) && (LevelList[i].getTilesList()[stt3]->getType() <= MAX_TILE))
 				if (checkCollision(box, LevelList[i].getTilesList()[stt3]->getCollision())) check = true;
 
-			if ((LevelList[i].getTilesList()[stt4]->getType() >= 0) && (LevelList[i].getTilesList()[stt4]->getType() <= 48))
+			if ((LevelList[i].getTilesList()[stt4]->getType() >= 0) && (LevelList[i].getTilesList()[stt4]->getType() <= MAX_TILE))
 				if (checkCollision(box, LevelList[i].getTilesList()[stt4]->getCollision())) check = true;
 
-				if ((LevelList[i].getTilesList()[stt2]->getType() > 48) && (LevelList[i].getTilesList()[stt4]->getType() > 48)) grounded = false;
-				if ((LevelList[i].getTilesList()[stt4]->getType() > 48) && (LevelList[i].getTilesList()[stt2]->getType() <= 48) && box.x + box.w <= LevelList[i].getTilesList()[stt2]->getX()) grounded = false;
+				if ((LevelList[i].getTilesList()[stt2]->getType() > MAX_TILE) && (LevelList[i].getTilesList()[stt4]->getType() > MAX_TILE)) grounded = false;
+				if ((LevelList[i].getTilesList()[stt4]->getType() > MAX_TILE) && (LevelList[i].getTilesList()[stt2]->getType() <= MAX_TILE) && box.x + box.w <= LevelList[i].getTilesList()[stt2]->getX()) grounded = false;
 			}
 
 				groundSTT = stt4;
@@ -232,7 +232,7 @@ SDL_Texture* commonFunction::createText(string _text, SDL_Color _textColor)
 
 void commonFunction::clearRenderer()
 {
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_SetRenderDrawColor(renderer, 38, 212, 255, 255);
     SDL_RenderClear(renderer);
 }
 

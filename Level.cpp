@@ -14,7 +14,7 @@ Level::Level(float _x, float _y, const char* _path, SDL_Texture* _tileTex)
 
     //Nếu ko đọc đc dữ liệu trong map
     if (map.fail()) {
-        printf("Unable to load map file!\n");
+        printf("Unable to load map file1!\n");
         //tilesLoaded = false;
     }
     else
@@ -29,7 +29,7 @@ Level::Level(float _x, float _y, const char* _path, SDL_Texture* _tileTex)
 
             //Debug
             if (map.fail()) {
-                printf("Error loading map: Unexpected end of file!\n");
+                printf("Error loading map: Unexpected end of file1!\n");
                 //tilesLoaded = false;
                 break;
             }
@@ -95,7 +95,7 @@ void Level::setTilesType(const char* _path)
 
     //Nếu ko đọc đc dữ liệu trong map
     if (map.fail()) {
-        printf("Unable to load map file!\n");
+        printf("Unable to load map file2!\n");
         tilesLoaded = false;
     }
     else
@@ -110,7 +110,8 @@ void Level::setTilesType(const char* _path)
 
             //Debug
             if (map.fail()) {
-                printf("Error loading map: Unexpected end of file!\n");
+                cout<<i<<endl;
+                printf("Error loading map: Unexpected end of file2!\n");
                 //tilesLoaded = false;
                 break;
             }

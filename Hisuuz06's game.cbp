@@ -40,6 +40,8 @@
 		<Unit filename="Level.h" />
 		<Unit filename="Menu.cpp" />
 		<Unit filename="Menu.h" />
+		<Unit filename="Monster.cpp" />
+		<Unit filename="Monster.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
 		<Unit filename="Timer.cpp" />

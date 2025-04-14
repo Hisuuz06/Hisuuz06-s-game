@@ -31,13 +31,22 @@ const int TILE_HEIGHT=64;
 const int TOTAL_LEVEL_PART=3;
 const int TOTAL_MAP=5;
 const int TOTAL_TILES = 336;
-const int TOTAL_TILE_SPRITES = 96;
+const int TOTAL_TILE_SPRITES = 256;
+const int MAX_TILE = 48;
 
 static TTF_Font* font = NULL;
 static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_Surface* surface = NULL;
 
+struct map_path{
+    const char* path;
+    vector<float> monsterPos;
+    map_path(vector<float> _monsterPos, const char* _path){
+        path=_path;
+        monsterPos=_monsterPos;
+    }
+};
 
 namespace commonFunction
 {

@@ -9,7 +9,8 @@
 #include "window.h"
 #include "Entity.h"
 #include "Level.h"
-
+#include "Monster.h"
+class Monster;
 class Player : public Entity
 {
 private:
@@ -36,16 +37,17 @@ private:
 	SDL_Rect collision;
 public:
     Player(float _x, float _y, SDL_Texture* _texture);
-    void update(vector<Level>& LevelList, SDL_Rect& camera);
+    void update(vector<Level>& LevelList,vector<Monster*> &monsterList,  SDL_Rect& camera);
     void jump();
     void gravity();
-    void getHit(SDL_Rect& camera);
+    void getHit(vector<Monster*> &monsterList, SDL_Rect& camera);
     bool isDead() { return dead; }
+    bool isFalling() {return falling;}
     void handleInput(SDL_Event &events);
     void handleCamera(SDL_Rect& camera, float& camVel);
     void render(SDL_Rect& _camera);
     void resetPlayer();
-    SDL_Rect getCollision();
+    SDL_Rect getCollision() const {return collision;}
 };
 
 #endif // _PLAYER_H_

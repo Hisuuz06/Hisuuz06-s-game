@@ -16,6 +16,7 @@ class Level
 private:
     float x, y;
     vector<Tile*> TilesList;
+    vector<float> monsterPos;
 public:
     Level(float _x, float _y,const char* _path, SDL_Texture* _tileTex );
     void render(SDL_Rect _TileClips[], SDL_Rect& _camera);
@@ -23,9 +24,10 @@ public:
     void setLevelX(Level& _level);
 	void setLevelX(float _x);
     void setTilesType(const char* _path);
+    void setMonsterPos(vector<float>& _monsterPos) { monsterPos = _monsterPos; }
 
     vector<Tile*> getTilesList() const { return TilesList; }
-
+    vector<float> getMonsterPos() const { return monsterPos;}
     int getX();
     int getY();
 
