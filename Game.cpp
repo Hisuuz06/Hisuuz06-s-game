@@ -21,6 +21,10 @@ bool Game::init()
         std::cout << "TTF_Init HAS FAILED. SDL_ERROR: " << TTF_GetError() << std::endl;
         success = false;
     }
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        std::cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
+        success = false;
+    }
     if (success == true) commonFunction::RenderWindow("Hisuuz06's Game", SCREEN_WIDTH, SCREEN_HEIGHT);
     return success;
 }
@@ -45,6 +49,21 @@ bool Game::loadMedia()
     buttonTex = commonFunction::loadTexture("texture/button.png");
     if (buttonTex == NULL) success = false;
 
+    bgMusic = Mix_LoadMUS("sfx/MusicBackGround.mp3");
+    if (bgMusic == NULL) success = false;
+
+    playerSFX[0] = Mix_LoadWAV("sfx/Hit.wav"); // hit
+    if (playerSFX[0] == NULL) success = false;
+
+    playerSFX[1] = Mix_LoadWAV("sfx/Jump.wav"); //jumping
+    if (playerSFX[1] == NULL) success = false;
+
+    playerSFX[2] = Mix_LoadWAV("sfx/Landing.wav"); //landing
+    if (playerSFX[2] == NULL) success = false;
+
+    monsterSFX = Mix_LoadWAV("sfx/Monster.wav");
+    if(monsterSFX == NULL) success = false;
+
     if (!success) cout << "FAILED TO LOAD MEDIA: " << SDL_GetError() << endl;
     return success;
 }
@@ -67,10 +86,11 @@ void Game::FPSCounter()
 
 void Game::renderScore()
 {
-    if(score < playerList[0].getX()/TILE_WIDTH) score = playerList[0].getX()/TILE_WIDTH;
+    if(distanceScore < playerList[0].getX()/TILE_WIDTH) distanceScore = playerList[0].getX()/TILE_WIDTH;
+    score = distanceScore + killScore;
     scoreText.str("");
     scoreText<<"Score: "<<score<< "m";
-    SDL_Color whiteColor = { 50,255,9,255 };
+    SDL_Color whiteColor = { 255,255,255,255 };
     SDL_Color yellowColor = { 252,226,5,255 };
 
     ifstream readFile;
@@ -144,7 +164,7 @@ bool Game::createMonster()
 
 bool Game::createPlayer()
 {
-    Player knight(TILE_WIDTH * 3, 300, player);
+    Player knight(TILE_WIDTH * 4, TILE_HEIGHT*12, player);
     playerList.push_back(knight);
     if (playerList.size() < 0) return false;
     return true;
@@ -158,8 +178,21 @@ bool Game::createMenu()
     return true;
 }
 
+void Game::playMusic()
+{
+    if (Mix_PlayingMusic() == 0) {
+        Mix_FadeInMusic(bgMusic, -1, 1000);
+        Mix_VolumeMusic(50);
+    }
+    else if (Mix_PausedMusic() == 1) Mix_ResumeMusic();
+    else if (playerList[0].isDead()) Mix_HaltMusic();
+}
+
 void Game::pauseTime()
 {
+    if (Mix_PlayingMusic() == 1) {
+        Mix_PauseMusic();
+    }
     fpsTimer.pause();
 }
 
@@ -191,7 +224,7 @@ void Game::render_update_Level()
 
 void Game::render_update_player()
 {
-    playerList[0].update(LevelList, monsterList, camera);
+    playerList[0].update(LevelList, monsterList,playerSFX, camera);
     playerList[0].handleCamera(camera, camVel);
     playerList[0].render(camera);
 }
@@ -202,9 +235,10 @@ void Game::render_update_monster()
         if(monsterList[i]!=NULL){
             if(!monsterList[i]->isDead()){
                 monsterList[i]->render(camera);
-                monsterList[i]->update(playerList[0],LevelList,camera);
+                monsterList[i]->update(playerList[0],LevelList,monsterSFX,camera);
             }
             else{
+                killScore +=20;
                 delete monsterList[i];
                 monsterList[i]==NULL;
                 monsterList.erase(monsterList.begin()+i);
@@ -290,7 +324,7 @@ void Game::handleGameInput(SDL_Event& event)
 {
     if(event.type==SDL_QUIT) gameRunning = false;
     menuList[0].handleInput(event, gameRunning, playerList[0]);
-    if(!menuList[0].isMenu() && !menuList[0].isPaused()) playerList[0].handleInput(event);
+    if(!menuList[0].isMenu() && !menuList[0].isPaused()) playerList[0].handleInput(event, playerSFX);
 }
 
 void Game::setSDL_Rect()
@@ -301,7 +335,7 @@ void Game::setSDL_Rect()
         gTileClips[i].y = m;
         gTileClips[i].w = TILE_WIDTH/4;
         gTileClips[i].h = TILE_HEIGHT/4;
-        n += 16;
+        n += TILE_WIDTH/4;
         if (n >= 16 * TILE_WIDTH/4) {
             n = 0;
             m += TILE_HEIGHT/4;

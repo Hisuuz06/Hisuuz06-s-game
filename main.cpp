@@ -36,7 +36,10 @@ int main(int argc, char* argv[])
                 }
                 if(mainGame.getMenuList()[0].isMenu()) mainGame.render_mainMenu();
                 else if(mainGame.getMenuList()[0].isPaused()) mainGame.pauseTime();
-                else mainGame.render_update_Game();
+                else{
+                    mainGame.playMusic();
+                    mainGame.render_update_Game();
+                }
             }
         }
     }

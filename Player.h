@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <vector>
 
 #include "window.h"
@@ -35,15 +36,21 @@ private:
 	int levelSTT = 1;
 	float xVel=0, yVel=0;
 	SDL_Rect collision;
+	Mix_Chunk* playerSFX[3];
 public:
     Player(float _x, float _y, SDL_Texture* _texture);
-    void update(vector<Level>& LevelList,vector<Monster*> &monsterList,  SDL_Rect& camera);
+    enum SFX {
+        hitSFX = 0,
+		jumpSFX = 1,
+		landSFX = 2,
+    };
+    void update(vector<Level>& LevelList,vector<Monster*> &monsterList, Mix_Chunk* _sfx[], SDL_Rect& camera);
     void jump();
     void gravity();
-    void getHit(vector<Monster*> &monsterList, SDL_Rect& camera);
+    void getHit(vector<Monster*> &monsterList, Mix_Chunk* _sfx[], SDL_Rect& camera);
     bool isDead() { return dead; }
     bool isFalling() {return falling;}
-    void handleInput(SDL_Event &events);
+    void handleInput(SDL_Event &events, Mix_Chunk* _sfx[]);
     void handleCamera(SDL_Rect& camera, float& camVel);
     void render(SDL_Rect& _camera);
     void resetPlayer();

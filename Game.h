@@ -5,9 +5,11 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include <sstream>
 #include <fstream>
 #include <ctime>
+#include <cstdlib>
 
 #include "Entity.h"
 #include "tile.h"
@@ -15,6 +17,7 @@
 #include "Timer.h"
 #include "Level.h"
 #include "Player.h"
+#include "Monster.h"
 #include "Menu.h"
 
 class Game
@@ -26,6 +29,10 @@ private:
     SDL_Texture* bgTex = NULL;
     SDL_Texture* buttonTex = NULL;
 
+    Mix_Music* bgMusic = NULL;
+    Mix_Chunk* playerSFX[4] = { NULL };
+    Mix_Chunk* monsterSFX = NULL;
+
     SDL_Rect gTileClips[TOTAL_TILE_SPRITES];
     SDL_Rect camera = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
     float camVel = 1.5;
@@ -35,6 +42,8 @@ private:
     stringstream scoreText;
     stringstream highscoreText;
     int score = 0;
+    int killScore = 0;
+    int distanceScore = 0;
     int highscore = 0;
     int countedFrames = 0;
 
@@ -59,6 +68,7 @@ public:
     bool createMonster();
     bool createPlayer();
     bool createMenu();
+    void playMusic();
     void pauseTime();
     void render_update_Level();
     void render_update_player();

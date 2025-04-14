@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include <math.h>
 
 #include "window.h"
@@ -37,12 +38,12 @@ private:
 public:
     Monster(float _x, float _y, SDL_Texture* _texture);
 
-    void update(Player& _player, vector<Level>& LevelList, SDL_Rect& camera);
+    void update(Player& _player, vector<Level>& LevelList, Mix_Chunk* _sfx, SDL_Rect& camera);
     void gravity();
     void autoMovement(vector<Level>& LevelList);
     void moveToPlayer(Player& _player, vector<Level>& LevelList);
     bool isDead() { return dead; }
-    void getHit(Player& _player, SDL_Rect& camera);
+    void getHit(Player& _player, Mix_Chunk* _sfx, SDL_Rect& camera);
     void render(SDL_Rect& _camera);
 
     SDL_Rect getCollision() const { return collision; }

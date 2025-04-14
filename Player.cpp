@@ -62,22 +62,23 @@ Player::Player(float _x, float _y, SDL_Texture* _texture) : Entity(_x,_y,_textur
 
 }
 
-void Player::handleInput(SDL_Event &events)
+void Player::handleInput(SDL_Event &events, Mix_Chunk* _sfx[])
 {
     if (!isDead()) {
         if(events.type == SDL_KEYDOWN && events.key.repeat==0)
         {
             switch (events.key.keysym.sym)
             {
-            case SDLK_d:
+            case SDLK_RIGHT:
                 xVel+=PLAYER_VEL;
                 break;
-            case SDLK_a:
+            case SDLK_LEFT:
                 xVel-=PLAYER_VEL;
                 break;
             case SDLK_SPACE:
                 if(grounded){
                     jump();
+                    Mix_PlayChannel(-1, _sfx[jumpSFX], 0);
                 }
                 break;
             default:
@@ -88,10 +89,10 @@ void Player::handleInput(SDL_Event &events)
         {
             switch (events.key.keysym.sym)
             {
-            case SDLK_d:
+            case SDLK_RIGHT:
                 xVel-=PLAYER_VEL;
                 break;
-            case SDLK_a:
+            case SDLK_LEFT:
                 xVel+=PLAYER_VEL;
                 break;
             case SDLK_SPACE:
@@ -123,22 +124,23 @@ void Player::gravity()
 	else yVel = GRAVITY;
 }
 
-void Player::getHit(vector<Monster*> &monsterList, SDL_Rect& camera)
+void Player::getHit(vector<Monster*> &monsterList, Mix_Chunk* _sfx[], SDL_Rect& camera)
 {
     for(int i=0;i<monsterList.size();i++){
         if(monsterList[i]!=NULL)
         if(commonFunction::checkCollision(collision,monsterList[i]->getCollision())&&!(monsterList[i]->isDead())){
+            Mix_PlayChannel(-1, _sfx[hitSFX], 0);
             dead = true;
         }
     }
-    if (getY() + PLAYER_HEIGHT >= LEVEL_HEIGHT ) {
+    if (getY() + PLAYER_HEIGHT >= LEVEL_HEIGHT || getX() -camera.x <= 0 ) {
 		dead = true;
 	}
 }
 
-void Player::update(vector<Level>& LevelList,vector<Monster*> &monsterList, SDL_Rect& camera) {
+void Player::update(vector<Level>& LevelList,vector<Monster*> &monsterList, Mix_Chunk* _sfx[], SDL_Rect& camera) {
 	gravity();
-    if(!dead) getHit(monsterList, camera);
+    if(!dead) getHit(monsterList, _sfx, camera);
 	// set trạng thái Player
 	if (xVel == 0 && grounded && !dead) idling = true;
 	else idling = false;
@@ -185,6 +187,7 @@ void Player::update(vector<Level>& LevelList,vector<Monster*> &monsterList, SDL_
 			y = LevelList[levelSTT].getTilesList()[groundSTT]->getY() - 64 * 2+20;
 			if (falling) {
 				grounded = true;
+				Mix_PlayChannel(-1, _sfx[landSFX], 0);
 			}
 		}
 		else if (yVel < 0) {
@@ -197,11 +200,11 @@ void Player::update(vector<Level>& LevelList,vector<Monster*> &monsterList, SDL_
 
 void Player::handleCamera(SDL_Rect& camera, float& camVel)
 {
-    //if(!isDead()) camera.x += camVel;
-    //float giatoc= 0.001;
-    //if (camVel > 4) giatoc = 0.0003;
-	//if (camVel > 5) giatoc = 0.00001;
-	//camVel+=giatoc;
+    if(!isDead()) camera.x += camVel;
+    float giatoc= 0.001;
+    if (camVel > 4) giatoc = 0.0003;
+	if (camVel > 5) giatoc = 0.00001;
+	camVel+=giatoc;
 	if (getX() + PLAYER_WIDTH / 2 - camera.x >= SCREEN_WIDTH * 2 / 3)
     {
 		camera.x = (getX() + PLAYER_WIDTH / 2) - SCREEN_WIDTH * 2 / 3;
@@ -259,8 +262,8 @@ void Player::render(SDL_Rect &_camera)
 
 void Player::resetPlayer()
 {
-    x = TILE_WIDTH * 3;
-    y = LEVEL_HEIGHT - TILE_HEIGHT * 5;
+    x = TILE_WIDTH * 4;
+    y = TILE_HEIGHT * 12;
     xVel = 0;
     yVel = 0;
     dead = false;

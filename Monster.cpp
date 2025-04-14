@@ -33,13 +33,13 @@ Monster::Monster(float _x, float _y, SDL_Texture* _texture) : Entity(_x, _y, _te
 	}
 }
 
-void Monster::update(Player& _player, vector<Level>& LevelList, SDL_Rect& camera) {
+void Monster::update(Player& _player, vector<Level>& LevelList, Mix_Chunk* _sfx, SDL_Rect& camera) {
 	if (!beingHit) {
 		if (xVel < 0) flipType = SDL_FLIP_HORIZONTAL;
 		if (xVel > 0) flipType = SDL_FLIP_NONE;
 	}
 	gravity();
-	getHit(_player, camera);
+	getHit(_player, _sfx, camera);
 	autoMovement(LevelList);
 	moveToPlayer(_player, LevelList);
 
@@ -122,7 +122,7 @@ void Monster::moveToPlayer(Player& _player, vector<Level>& LevelList)
     }
 }
 
-void Monster::getHit(Player& _player, SDL_Rect& camera)
+void Monster::getHit(Player& _player, Mix_Chunk* _sfx, SDL_Rect& camera)
 {
     bool check = false;
     if(commonFunction::checkCollision(_player.getCollision(),collision)){
@@ -138,6 +138,7 @@ void Monster::getHit(Player& _player, SDL_Rect& camera)
 	if(check||getY()+MONSTER_HEIGHT/2>LEVEL_HEIGHT||getX()-camera.x<0){
         dead = true;
         beingHit = false;
+        Mix_PlayChannel(-1,_sfx,0);
 	}
 }
 
