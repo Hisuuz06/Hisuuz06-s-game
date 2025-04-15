@@ -25,7 +25,7 @@ bool Game::init()
         std::cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
         success = false;
     }
-    if (success == true) commonFunction::RenderWindow("Hisuuz06's Game", SCREEN_WIDTH, SCREEN_HEIGHT);
+    if (success == true) commonFunction::RenderWindow("Knight Run", SCREEN_WIDTH, SCREEN_HEIGHT);
     return success;
 }
 
