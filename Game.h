@@ -46,6 +46,7 @@ private:
     int distanceScore = 0;
     int highscore = 0;
     int countedFrames = 0;
+    bool isMuted = false;
 
     bool gameRunning = true;
     vector<map_path> mapList;

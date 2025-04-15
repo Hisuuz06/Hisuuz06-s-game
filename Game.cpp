@@ -52,13 +52,13 @@ bool Game::loadMedia()
     bgMusic = Mix_LoadMUS("sfx/MusicBackGround.mp3");
     if (bgMusic == NULL) success = false;
 
-    playerSFX[0] = Mix_LoadWAV("sfx/Hit.wav"); // hit
+    playerSFX[0] = Mix_LoadWAV("sfx/Hit.wav");
     if (playerSFX[0] == NULL) success = false;
 
-    playerSFX[1] = Mix_LoadWAV("sfx/Jump.wav"); //jumping
+    playerSFX[1] = Mix_LoadWAV("sfx/Jump.wav");
     if (playerSFX[1] == NULL) success = false;
 
-    playerSFX[2] = Mix_LoadWAV("sfx/Landing.wav"); //landing
+    playerSFX[2] = Mix_LoadWAV("sfx/Landing.wav");
     if (playerSFX[2] == NULL) success = false;
 
     monsterSFX = Mix_LoadWAV("sfx/Monster.wav");
@@ -289,6 +289,13 @@ void Game::resetGame()
     camera.y = 0;
     camVel = 1.5;
 
+    if (isMuted) {
+        Mix_Volume(-1, 0);
+        Mix_VolumeMusic(0);
+    } else {
+        Mix_Volume(-1, MIX_MAX_VOLUME);
+        Mix_VolumeMusic(MIX_MAX_VOLUME);
+    }
     if(!monsterList.empty())
     for(int i=monsterList.size()-1;i>=0;i--){
         delete monsterList[i];
@@ -323,6 +330,16 @@ bool Game::isRunning()
 void Game::handleGameInput(SDL_Event& event)
 {
     if(event.type==SDL_QUIT) gameRunning = false;
+    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m) {
+        isMuted = !isMuted;
+        if (isMuted) {
+            Mix_Volume(-1, 0);
+            Mix_VolumeMusic(0);
+        } else {
+            Mix_Volume(-1, 50);
+            Mix_VolumeMusic(50);
+        }
+    }
     menuList[0].handleInput(event, gameRunning, playerList[0]);
     if(!menuList[0].isMenu() && !menuList[0].isPaused()) playerList[0].handleInput(event, playerSFX);
 }
